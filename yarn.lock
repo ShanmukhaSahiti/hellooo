@@ -3263,6 +3263,11 @@ vscode-uri@^3.0.2:
   resolved "https://registry.npmjs.org/vscode-uri/-/vscode-uri-3.0.8.tgz"
   integrity sha512-AyFQ0EVmsOZOlAnxoFOGOq1SQDWAB7C6aqMGS23svWAllfOaxbuFvcT8D1i8z3Gyn8fraVeZNNmN6e9bxxXkKw==
 
+whatsapp-chat-parser@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/whatsapp-chat-parser/-/whatsapp-chat-parser-4.0.0.tgz"
+  integrity sha512-+3EVlFYspIiBPuNV7OivYIega779SbOkg0nVoKg+pGjNeHBkPb8rnYBOVDpOiQyrlu/tDpsIwHHlmrzzaAsVAQ==
+
 which-boxed-primitive@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/which-boxed-primitive/-/which-boxed-primitive-1.0.2.tgz"
