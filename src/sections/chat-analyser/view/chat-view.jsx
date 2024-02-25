@@ -1,14 +1,18 @@
 import { faker } from '@faker-js/faker';
+import { useState, useEffect } from 'react';
+import * as whatsapp from 'whatsapp-chat-parser';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
+import { Chat } from 'src/utils/tranformChatData';
+
 import Iconify from 'src/components/iconify';
 
 import AppTasks from '../app-tasks';
+import WordCloud from '../word-cloud';
 import AppNewsUpdate from '../app-news-update';
-import chat from '../../../_mock/chat_example.txt';
 import AppOrderTimeline from '../app-order-timeline';
 import AppCurrentVisits from '../app-current-visits';
 import AppWebsiteVisits from '../app-website-visits';
@@ -16,26 +20,36 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
-
-
-
+import chat from '../../../_mock/WhatsApp Chat with Vamshi.txt';
 // ----------------------------------------------------------------------
 
 export default function ChatView() {
-  fetch(chat)
- .then(r => r.text())
- .then(text => {
-  console.log('text decoded:', text);
-});
+  const [chatObject, setChatObject] = useState([]);
+  const [wordCloud, setWordCloud] = useState([])
 
+  useEffect(() => {
+    fetch(chat)
+      .then((r) => r.text())
+      .then((text) => {
+        setChatObject(whatsapp.parseString(text));
+        const chartdata = new Chat(whatsapp.parseString(text));
+      chartdata.getAllWords().then((x) => {setWordCloud(x)});
+      });
+      
+  }, []);
 
+  console.log(chatObject)
+  console.log(wordCloud)
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
         Hi, Welcome back 👋
       </Typography>
-
       <Grid container spacing={3}>
+      <Grid xs={12} md={6} lg={8}>
+        <WordCloud data={wordCloud}/>
+        </Grid>
+
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Weekly Sales"

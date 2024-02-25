@@ -14,7 +14,7 @@ const navConfig = [
   },
   {
     title: 'chat',
-    path: '/',
+    path: '/chat-view',
     icon: icon('ic_analytics'),
   },
   {
