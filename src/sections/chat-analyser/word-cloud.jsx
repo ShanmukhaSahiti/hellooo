@@ -24,7 +24,7 @@ function WordCloud(props) {
   }, [data]);
 
   return (
-    <div id="chartdiv" style={{ width: "500px", height: "500px" }} />
+    <div id="chartdiv" style={{ width: "100%", height: "500px" }} />
   );
 }
 export default WordCloud;

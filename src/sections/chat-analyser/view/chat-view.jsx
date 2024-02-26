@@ -12,6 +12,7 @@ import Iconify from 'src/components/iconify';
 
 import AppTasks from '../app-tasks';
 import WordCloud from '../word-cloud';
+import LineChart from '../line-chart';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
 import AppCurrentVisits from '../app-current-visits';
@@ -24,32 +25,39 @@ import chat from '../../../_mock/WhatsApp Chat with Vamshi.txt';
 // ----------------------------------------------------------------------
 
 export default function ChatView() {
-  const [chatObject, setChatObject] = useState([]);
-  const [wordCloud, setWordCloud] = useState([])
+  // const [chatObject, setChatObject] = useState([]);
+  const [wordCloud, setWordCloud] = useState([]);
+  const [lineGraph, setLineGraph] = useState([]);
 
   useEffect(() => {
     fetch(chat)
       .then((r) => r.text())
       .then((text) => {
-        setChatObject(whatsapp.parseString(text));
+        // setChatObject(whatsapp.parseString(text));
         const chartdata = new Chat(whatsapp.parseString(text));
-      chartdata.getAllWords().then((x) => {setWordCloud(x)});
+        chartdata.getAllWords().then((x) => {
+          setWordCloud(x);
+        });
+        chartdata.getLineGraphData().then((x) => {
+          console.log(x);
+          setLineGraph(x);
+        });
+        // chartdata.getLineGraphXAxis().then((x)=> {
+        //   setLineGraphX(x);
+        // })
       });
-      
   }, []);
 
-  console.log(chatObject)
-  console.log(wordCloud)
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
         Hi, Welcome back 👋
       </Typography>
-      <Grid container spacing={3}>
-      <Grid xs={12} md={6} lg={8}>
-        <WordCloud data={wordCloud}/>
-        </Grid>
 
+      <LineChart data={lineGraph} />
+      <WordCloud data={wordCloud} />
+
+      <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Weekly Sales"
