@@ -1,18 +1,19 @@
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Avatar from '@mui/material/Avatar';
+import { Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
 
 import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
-export default function FactCard({ post, index }) {
-  const { cover, title, author } = post;
+export default function FactCard({ facts, index }) {
+  const { averageMessageLength, longestMessage, name, sortedEmojis } =
+    facts;
 
   const latestPostLarge = index === 0;
 
@@ -20,8 +21,8 @@ export default function FactCard({ post, index }) {
 
   const renderAvatar = (
     <Avatar
-      alt={author.name}
-      src={author.avatarUrl}
+      alt={name}
+      src={`../../assets/images/avatars/${name}.jpeg`}
       sx={{
         zIndex: 9,
         width: 32,
@@ -41,14 +42,13 @@ export default function FactCard({ post, index }) {
   );
 
   const renderTitle = (
-    <Link
+    <Typography
       color="inherit"
       variant="subtitle2"
-      underline="hover"
       sx={{
-        height: 44,
-        overflow: 'hidden',
-        WebkitLineClamp: 2,
+        // height: 44,
+        // overflow: 'hidden',
+        // WebkitLineClamp: 2,
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
         ...(latestPostLarge && { typography: 'h5', height: 60 }),
@@ -57,15 +57,17 @@ export default function FactCard({ post, index }) {
         }),
       }}
     >
-      {title}
-    </Link>
+      <Typography>Average Message Length : {averageMessageLength}</Typography>
+      <Typography>Longest Message: {longestMessage}</Typography>
+      <Typography>Top used Emojis: {sortedEmojis}</Typography>
+    </Typography>
   );
 
   const renderCover = (
     <Box
       component="img"
-      alt={title}
-      src={cover}
+      alt={name}
+      src={`../../assets/images/${name}_funfact.jpeg`}
       sx={{
         top: 0,
         width: 1,
@@ -75,7 +77,6 @@ export default function FactCard({ post, index }) {
       }}
     />
   );
-
 
   const renderShape = (
     <SvgColor
@@ -94,7 +95,7 @@ export default function FactCard({ post, index }) {
   );
 
   return (
-    <Grid xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+   // <Grid xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card>
         <Box
           sx={{
@@ -136,16 +137,14 @@ export default function FactCard({ post, index }) {
             }),
           }}
         >
-
           {renderTitle}
-
         </Box>
       </Card>
-    </Grid>
+    // </Grid>
   );
 }
 
 FactCard.propTypes = {
-  post: PropTypes.object.isRequired,
+  facts: PropTypes.object.isRequired,
   index: PropTypes.number,
 };

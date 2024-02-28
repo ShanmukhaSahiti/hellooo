@@ -4,13 +4,13 @@ import * as whatsapp from 'whatsapp-chat-parser';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
 
 import { Chat } from 'src/utils/tranformChatData';
 
 import Iconify from 'src/components/iconify';
 
 import AppTasks from '../app-tasks';
+import FactCard from '../Fact-card';
 import WordCloud from '../word-cloud';
 import LineChart from '../line-chart';
 import SharePieChart from '../pie-chart';
@@ -30,7 +30,7 @@ export default function ChatView() {
   const [wordCloud, setWordCloud] = useState([]);
   const [lineGraph, setLineGraph] = useState([]);
   const [funFacts, setFunFacts] = useState([]);
-  const [share, setShare] = useState([]);
+  const [share, setShare] = useState({});
 
   useEffect(() => {
     fetch(chat)
@@ -44,26 +44,29 @@ export default function ChatView() {
         chartdata.getLineGraphData().then((x) => {
           setLineGraph(x);
         });
-        chartdata.getFunFacts().then((x)=> {
+        chartdata.getFunFacts().then((x) => {
           setFunFacts(x);
-        })
-        chartdata.getShareOfSpeech().then((x)=> {
+        });
+        chartdata.getShareOfSpeech().then((x) => {
           setShare(x);
-        })
+        });
       });
   }, []);
-console.log(funFacts);
-console.log(share)
+
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
-      </Typography>
 
-      <SharePieChart/>
+      <Grid container spacing={2}>
+        <Grid xs={3}>
+          <SharePieChart share={share} />
+        </Grid>
+        {funFacts.map((eachCardData, i) => (
+            <Grid key={i} xs={4.5}><FactCard facts={eachCardData} index={0} /></Grid>
+        ))}
+      </Grid>
+
       <LineChart data={lineGraph} />
       <WordCloud data={wordCloud} />
-      
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
