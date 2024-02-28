@@ -13,6 +13,7 @@ import Iconify from 'src/components/iconify';
 import AppTasks from '../app-tasks';
 import WordCloud from '../word-cloud';
 import LineChart from '../line-chart';
+import SharePieChart from '../pie-chart';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
 import AppCurrentVisits from '../app-current-visits';
@@ -28,6 +29,8 @@ export default function ChatView() {
   // const [chatObject, setChatObject] = useState([]);
   const [wordCloud, setWordCloud] = useState([]);
   const [lineGraph, setLineGraph] = useState([]);
+  const [funFacts, setFunFacts] = useState([]);
+  const [share, setShare] = useState([]);
 
   useEffect(() => {
     fetch(chat)
@@ -39,23 +42,28 @@ export default function ChatView() {
           setWordCloud(x);
         });
         chartdata.getLineGraphData().then((x) => {
-          console.log(x);
           setLineGraph(x);
         });
-        // chartdata.getLineGraphXAxis().then((x)=> {
-        //   setLineGraphX(x);
-        // })
+        chartdata.getFunFacts().then((x)=> {
+          setFunFacts(x);
+        })
+        chartdata.getShareOfSpeech().then((x)=> {
+          setShare(x);
+        })
       });
   }, []);
-
+console.log(funFacts);
+console.log(share)
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
         Hi, Welcome back 👋
       </Typography>
 
+      <SharePieChart/>
       <LineChart data={lineGraph} />
       <WordCloud data={wordCloud} />
+      
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
