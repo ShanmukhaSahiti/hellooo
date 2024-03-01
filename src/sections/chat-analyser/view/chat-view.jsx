@@ -16,6 +16,7 @@ import chat from '../../../_mock/WhatsApp Chat with Vamshi.txt';
 export default function ChatView() {
   // const [chatObject, setChatObject] = useState([]);
   const [wordCloud, setWordCloud] = useState([]);
+  // const [emojiCloud, setEmojiCloud] = useState([]);
   const [lineGraph, setLineGraph] = useState([]);
   const [funFacts, setFunFacts] = useState([]);
   const [share, setShare] = useState({});
@@ -38,6 +39,7 @@ export default function ChatView() {
         chartdata.getShareOfSpeech().then((x) => {
           setShare(x);
         });
+        // chartdata.getAllEmojis().then((x)=> setEmojiCloud(x));
       });
   }, []);
 
@@ -54,8 +56,8 @@ export default function ChatView() {
       </Grid>
 
       <LineChart data={lineGraph} />
-      <WordCloud data={wordCloud} />
-
+      <WordCloud data={wordCloud} id= "wordCloud" />
+      {/* <WordCloud data={emojiCloud} id= "emojiCloud" /> */}
       
     </Container>
   );

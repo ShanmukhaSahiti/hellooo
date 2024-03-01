@@ -4,6 +4,7 @@
 /* eslint-disable prefer-const */
 import moment from "moment";
 import stopwords from "stopwords-en";
+import emojiRegex from "emoji-regex";
 import { onlyEmoji } from "emoji-aware";
 
 import { hexToRgbA, chatColors } from "./colors";
@@ -40,7 +41,8 @@ export class Chat {
 
   static match_emojys(chat_distribution, terminationCondition = 3) {
     let mostUsedEmojis = new Set();
-    const regexpEmojiPresentation = /\p{Emoji_Presentation}/gu;
+    // const regexpEmojiPresentation = /(\p{Emoji}\uFE0F|\p{Emoji_Presentation})/gu;
+    const regexpEmojiPresentation = emojiRegex();
     for (let entry of chat_distribution) {
       if (mostUsedEmojis.size === terminationCondition) {
         return mostUsedEmojis;
@@ -71,6 +73,45 @@ export class Chat {
       " "
     );
     message_string = message_string.replace(/\u200E/gi, "");
+    let message_array = message_string.replace(/\n/g, " ").split(" ");
+    let distribution = {};
+    message_array.map((item) => {
+      distribution[item] = (distribution[item] || 0) + 1;
+    });
+    let sorted_distribution = Object.entries(distribution).sort(
+      (a, b) => b[1] - a[1]
+    );
+    return sorted_distribution;
+  }
+
+  static createSortedFreqDictEmojiStripped(chatObject) {
+    let message_string = chatObject.reduce(
+      (n, { message }) => `${n  } ${  message}`,
+      " "
+    );
+    message_string = message_string.replace(/\u200E/gi, "");
+    const regexpEmojiPresentation = emojiRegex();
+    message_string = message_string.replace(regexpEmojiPresentation,'');
+    let message_array = message_string.replace(/\n/g, " ").split(" ");
+    let distribution = {};
+    message_array.map((item) => {
+      distribution[item] = (distribution[item] || 0) + 1;
+    });
+    let sorted_distribution = Object.entries(distribution).sort(
+      (a, b) => b[1] - a[1]
+    );
+    return sorted_distribution;
+  }
+
+  static createSortedFreqDictOnlyEmojis(chatObject) {
+    let message_string = chatObject.reduce(
+      (n, { message }) => `${n  } ${  message}`,
+      " "
+    );
+    message_string = message_string.replace(/\u200E/gi, "");
+    const regexpEmojiPresentation = emojiRegex();
+    // TODO: this is not working  - seems a simple one but unable to get it working!
+    message_string = message_string.replace(`(?!${  regexpEmojiPresentation  }$).*`,'');
     let message_array = message_string.replace(/\n/g, " ").split(" ");
     let distribution = {};
     message_array.map((item) => {
@@ -137,6 +178,7 @@ export class Chat {
 
     // frequencies for all words in chat (excluding system)
     this._sortedFreqList = null;
+    this._sortedFreqListEmojiStripped = null;
     // here we have the messages per person, also adding colors to them
     this._messagesPerPerson = null;
 
@@ -148,8 +190,11 @@ export class Chat {
 
   __reload() {
     this._lineGraphData = Promise.resolve(this._getLineGraphData());
+    this._emojiStrippedMsgs = Promise.resolve(this._getEmojiStrippedMsgs());
     this._funfacts = Promise.resolve(this._getFunFacts());
     this._allWords = Promise.resolve(this._getAllWords());
+    this._allWordsEmojiStripped = Promise.resolve(this._getAllEmojiStrippedWords());
+    this._allEmojis = Promise.resolve(this._getAllEmojis());
     this._hourlyData = Promise.resolve(this._getHourlyData());
     this._dailyData = Promise.resolve(this._getDailyData());
     this._weeklyData = Promise.resolve(this._getWeeklyData());
@@ -162,6 +207,18 @@ export class Chat {
     return this._sortedFreqList;
   }
 
+  get sortedFreqDictEmojiStripped() {
+    if (this._sortedFreqListEmojiStripped) return this._sortedFreqListEmojiStripped;
+    this._sortedFreqListEmojiStripped = Chat.createSortedFreqDictEmojiStripped(this.chatObject);
+    return this._sortedFreqListEmojiStripped;
+  }
+
+  get sortedFreqDictOnlyEmojis() {
+    if (this._sortedFreqListOnlyEmojis) return this._sortedFreqListOnlyEmojis;
+    this._sortedFreqListOnlyEmojis = Chat.createSortedFreqDictOnlyEmojis(this.chatObject);
+    return this._sortedFreqListOnlyEmojis;
+  }
+
   get groupAfter() {
     return this._groupAfter;
   }
@@ -172,6 +229,7 @@ export class Chat {
 
     this._lineGraphData = Promise.resolve(this._getLineGraphData());
     this._funfacts = Promise.resolve(this._getFunFacts());
+    this._emojiStrippedMsgs = Promise.resolve(this._getEmojiStrippedMsgs());
     // this._allWords = Promise.resolve(this._getAllWords());
     this._hourlyData = Promise.resolve(this._getHourlyData());
     this._dailyData = Promise.resolve(this._getDailyData());
@@ -271,6 +329,15 @@ export class Chat {
 
   getFunFacts() {
     return this._funfacts;
+  }
+
+  _getEmojiStrippedMsgs() {
+
+    return this._funfacts;
+  }
+
+  getEmojiStrippedMsgs() {
+    return this._emojiStrippedMsgs;
   }
 
   _getHourlyData(opacity = 1) {
@@ -440,5 +507,63 @@ export class Chat {
 
   getAllWords() {
     return this._allWords.then((x) => x.slice(0, this._maxWordsWordCloud));
+  }
+
+  _getAllEmojiStrippedWords() {
+    return this.sortedFreqDictEmojiStripped
+      .filter(
+        (word) =>
+          !(
+            stopwords.includes(word[0].toLowerCase()) ||
+            [
+              "",
+              "<media",
+              "<attached:",
+              "audio",
+              "omitted>",
+              "bild",
+              "image",
+              "omitted",
+              "_",
+              "_ommited>",
+              "_omitted",
+              "_attached",
+            ].includes(word[0].toLowerCase())
+          ) && word[1] > 1
+      )
+      .map((word) => ({ word: word[0], freq: word[1] }));
+  }
+
+  getAllWordsEmojiStripped() {
+    return this._allWordsEmojiStripped.then((x) => x.slice(0, this._maxWordsWordCloud));
+  }
+
+  _getAllEmojis() {
+    return this.sortedFreqDictOnlyEmojis
+      .filter(
+        (word) =>
+          !(
+            stopwords.includes(word[0].toLowerCase()) ||
+            [
+              "",
+              "<media",
+              "<attached:",
+              "audio",
+              "omitted>",
+              "bild",
+              "image",
+              "omitted",
+              "_",
+              "_ommited>",
+              "_omitted",
+              "_attached",
+            ].includes(word[0].toLowerCase())
+          ) && word[1] > 1
+      )
+      .map((word) => ({ word: word[0], freq: word[1] }));
+  }
+
+  getAllEmojis() {
+    return this._allEmojis.then((x) => x.slice(0, this._maxWordsWordCloud));
   }
 }

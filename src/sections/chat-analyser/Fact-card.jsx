@@ -12,7 +12,7 @@ import SvgColor from 'src/components/svg-color';
 // ----------------------------------------------------------------------
 
 export default function FactCard({ facts, index }) {
-  const { averageMessageLength, longestMessage, name, sortedEmojis } =
+  const { averageMessageLength, longestMessage, name, numberOfWords, sortedEmojis } =
     facts;
 
   const latestPostLarge = index === 0;
@@ -57,9 +57,10 @@ export default function FactCard({ facts, index }) {
         }),
       }}
     >
+        <Typography>No. of Words: {numberOfWords}</Typography>
       <Typography>Average Message Length : {averageMessageLength}</Typography>
       <Typography>Longest Message: {longestMessage}</Typography>
-      <Typography>Top used Emojis: {sortedEmojis}</Typography>
+      <Typography>Top used emojis: {sortedEmojis}</Typography>
     </Typography>
   );
 

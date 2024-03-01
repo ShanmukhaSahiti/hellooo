@@ -4,9 +4,9 @@ import * as am5wc from "@amcharts/amcharts5/wc";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 function WordCloud(props) {
-    const {data} = props??[];
+    const {data, id} = props??[];
   useLayoutEffect(() => {
-    const root = am5.Root.new("chartdiv");
+    const root = am5.Root.new(id);
 
     root.setThemes([
       am5themes_Animated.new(root)
@@ -21,10 +21,10 @@ function WordCloud(props) {
     return () => {
       root.dispose();
     };
-  }, [data]);
+  }, [data, id]);
 
   return (
-    <div id="chartdiv" style={{ width: "100%", height: "500px" }} />
+    <div id={id} style={{ width: "100%", height: "500px" }} />
   );
 }
 export default WordCloud;
