@@ -26,15 +26,15 @@ export default function Router() {
       children: [
         { element: <IndexPage />, index: true },
         { path: 'chat-view', element: <ChatViewPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
+        // { path: 'user', element: <UserPage /> },
+        // { path: 'products', element: <ProductsPage /> },
+        // { path: 'blog', element: <BlogPage /> },
       ],
     },
-    {
-      path: 'login',
-      element: <LoginPage />,
-    },
+    // {
+    //   path: 'login',
+    //   element: <LoginPage />,
+    // },
     {
       path: '404',
       element: <Page404 />,
