@@ -26,6 +26,7 @@ export default defineConfig({
       },
     ],
   },
+  base: '/hellooo/',
   server: {
     port: 3030,
   },
