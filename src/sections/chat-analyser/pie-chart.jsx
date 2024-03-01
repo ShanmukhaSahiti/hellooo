@@ -10,7 +10,7 @@ export default function PieChart({ share }) {
       type: 'pie',
     },
 
-    colors: ['#c76193c4', '#ffab00a3'],
+    // colors: ['#c76193c4', '#ffab00a3'],
     labels,
     legend: {
       show: false,
@@ -65,9 +65,9 @@ export default function PieChart({ share }) {
   };
 
   return (
-      <div id="chart">
-        <ReactApexChart options={options} series={series} type="pie" width={280} />
-      </div>
+    <div id="chart">
+      <ReactApexChart options={options} series={series} type="pie" width={280} />
+    </div>
   );
 }
 

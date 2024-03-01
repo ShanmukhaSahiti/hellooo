@@ -7,9 +7,11 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { Chat } from 'src/utils/tranformChatData';
 
 import FactCard from '../Fact-card';
+import BarChart from '../bar-chart';
 import WordCloud from '../word-cloud';
 import LineChart from '../line-chart';
 import SharePieChart from '../pie-chart';
+import BarChartWeekly from '../bar-chart-weekly';
 import chat from '../../../_mock/WhatsApp Chat with Vamshi.txt';
 // ----------------------------------------------------------------------
 
@@ -20,6 +22,8 @@ export default function ChatView() {
   const [lineGraph, setLineGraph] = useState([]);
   const [funFacts, setFunFacts] = useState([]);
   const [share, setShare] = useState({});
+  const [hourlyData, setHourlyData] = useState({});
+  const [weekData, setWeekData] = useState({});
 
   useEffect(() => {
     fetch(chat)
@@ -40,25 +44,28 @@ export default function ChatView() {
           setShare(x);
         });
         // chartdata.getAllEmojis().then((x)=> setEmojiCloud(x));
+        chartdata.getHourlyData().then((x) => setHourlyData(x));
+        chartdata.getDailyData().then((x) => setWeekData(x));
       });
   }, []);
 
   return (
     <Container maxWidth="xl">
-
       <Grid container spacing={2}>
         <Grid xs={3}>
           <SharePieChart share={share} />
         </Grid>
         {funFacts.map((eachCardData, i) => (
-            <Grid key={i} xs={4.5}><FactCard facts={eachCardData} index={0} /></Grid>
+          <Grid key={i} xs={4.5}>
+            <FactCard facts={eachCardData} index={0} />
+          </Grid>
         ))}
       </Grid>
-
-      <LineChart data={lineGraph} />
-      <WordCloud data={wordCloud} id= "wordCloud" />
+      <WordCloud data={wordCloud} id="wordCloud" />
       {/* <WordCloud data={emojiCloud} id= "emojiCloud" /> */}
-      
+      <LineChart data={lineGraph} />
+      <BarChart hourlyData={hourlyData} />
+      <BarChartWeekly weekData={weekData} />
     </Container>
   );
 }
