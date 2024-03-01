@@ -27,10 +27,10 @@ export default defineConfig({
     ],
   },
   base: '/hellooo/',
-  server: {
-    port: 3030,
-  },
-  preview: {
-    port: 3030,
-  },
+  // server: {
+  //   port: 3030,
+  // },
+  // preview: {
+  //   port: 3030,
+  // },
 });
