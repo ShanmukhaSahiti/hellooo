@@ -9,7 +9,7 @@ export const ChatViewPage = lazy(() => import('src/pages/chat-view'));
 // export const UserPage = lazy(() => import('src/pages/user'));
 // export const LoginPage = lazy(() => import('src/pages/login'));
 // export const ProductsPage = lazy(() => import('src/pages/products'));
-export const Page404 = lazy(() => import('src/pages/page-not-found'));
+// export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ export default function Router() {
     // },
     {
       path: '404',
-      element: <Page404 />,
+      element: <IndexPage />,
     },
     {
       path: '*',
