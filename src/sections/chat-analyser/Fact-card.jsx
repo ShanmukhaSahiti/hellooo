@@ -22,7 +22,7 @@ export default function FactCard({ facts, index }) {
   const renderAvatar = (
     <Avatar
       alt={name}
-      src={`../../assets/images/avatars/${name}.jpeg`}
+      src={`../../hellooo/assets/images/avatars/${name}.jpeg`}
       sx={{
         zIndex: 9,
         width: 32,
@@ -68,7 +68,7 @@ export default function FactCard({ facts, index }) {
     <Box
       component="img"
       alt={name}
-      src={`../../assets/images/${name}_funfact.jpeg`}
+      src={`../../hellooo/assets/images/${name}_funfact.jpeg`}
       sx={{
         top: 0,
         width: 1,
@@ -82,7 +82,7 @@ export default function FactCard({ facts, index }) {
   const renderShape = (
     <SvgColor
       color="paper"
-      src="/assets/icons/shape-avatar.svg"
+      src="/hellooo/assets/icons/shape-avatar.svg"
       sx={{
         width: 80,
         height: 36,

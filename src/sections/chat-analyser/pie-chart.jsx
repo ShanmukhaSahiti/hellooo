@@ -19,7 +19,7 @@ export default function PieChart({ share }) {
       type: 'image',
       opacity: 1,
       image: {
-        src: ['../../assets/images/Sahiti_pie.jpeg', '../../assets/images/Vamshi_pie.jpeg'],
+        src: ['../../hellooo/assets/images/Sahiti_pie.jpeg', '../../hellooo/assets/images/Vamshi_pie.jpeg'],
         width: 25,
         imagedHeight: 25,
       },
