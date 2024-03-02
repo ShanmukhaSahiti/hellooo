@@ -61,11 +61,19 @@ export default function ChatView() {
           </Grid>
         ))}
       </Grid>
-      <WordCloud data={wordCloud} id="wordCloud" />
-      {/* <WordCloud data={emojiCloud} id= "emojiCloud" /> */}
-      <LineChart data={lineGraph} />
-      <BarChart hourlyData={hourlyData} />
-      <BarChartWeekly weekData={weekData} />
+      <Grid sx={{mb: 1}}>
+        <WordCloud data={wordCloud} id="wordCloud" />
+        {/* <WordCloud data={emojiCloud} id= "emojiCloud" /> */}
+      </Grid>
+      <Grid sx={{mb: 1}}>
+        <LineChart data={lineGraph} />
+      </Grid>
+      <Grid sx={{mb: 1}}>
+        <BarChart hourlyData={hourlyData} />
+      </Grid>
+      <Grid sx={{mb: 1}}>
+        <BarChartWeekly weekData={weekData} />
+      </Grid>
     </Container>
   );
 }

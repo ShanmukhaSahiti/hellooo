@@ -12,8 +12,7 @@ import SvgColor from 'src/components/svg-color';
 // ----------------------------------------------------------------------
 
 export default function FactCard({ facts, index }) {
-  const { averageMessageLength, longestMessage, name, numberOfWords, sortedEmojis } =
-    facts;
+  const { averageMessageLength, longestMessage, name, numberOfWords, sortedEmojis } = facts;
 
   const latestPostLarge = index === 0;
 
@@ -46,18 +45,18 @@ export default function FactCard({ facts, index }) {
       color="inherit"
       variant="subtitle2"
       sx={{
-        // height: 44,
+         height: '100%',
         // overflow: 'hidden',
         // WebkitLineClamp: 2,
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
-        ...(latestPostLarge && { typography: 'h5', height: 60 }),
+        ...(latestPostLarge && { typography: 'h5' }),
         ...((latestPostLarge || latestPost) && {
           color: 'common.white',
         }),
       }}
     >
-        <Typography>No. of Words: {numberOfWords}</Typography>
+      <Typography>No. of Words: {numberOfWords}</Typography>
       <Typography>Average Message Length : {averageMessageLength}</Typography>
       <Typography>Longest Message: {longestMessage}</Typography>
       <Typography>Top used emojis: {sortedEmojis}</Typography>
@@ -96,51 +95,51 @@ export default function FactCard({ facts, index }) {
   );
 
   return (
-   // <Grid xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
-      <Card>
-        <Box
-          sx={{
-            position: 'relative',
-            pt: 'calc(100% * 3 / 4)',
-            ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-              },
-            }),
-            ...(latestPostLarge && {
-              pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)',
-              },
-            }),
-          }}
-        >
-          {renderShape}
-
-          {renderAvatar}
-
-          {renderCover}
-        </Box>
-
-        <Box
-          sx={{
-            p: (theme) => theme.spacing(4, 3, 3, 3),
-            ...((latestPostLarge || latestPost) && {
-              width: 1,
-              bottom: 0,
+    // <Grid xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+    <Card>
+      <Box
+        sx={{
+          position: 'relative',
+          pt: 'calc(100% * 3 / 4)',
+          ...((latestPostLarge || latestPost) && {
+            pt: 'calc(100% * 4 / 3)',
+            '&:after': {
+              top: 0,
+              content: "''",
+              width: '100%',
+              height: '100%',
               position: 'absolute',
-            }),
-          }}
-        >
-          {renderTitle}
-        </Box>
-      </Card>
+              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
+            },
+          }),
+          ...(latestPostLarge && {
+            pt: {
+              xs: 'calc(100% * 4 / 3)',
+              sm: 'calc(100% * 3 / 4.66)',
+            },
+          }),
+        }}
+      >
+        {renderShape}
+
+        {renderAvatar}
+
+        {renderCover}
+      </Box>
+
+      <Box
+        sx={{
+          p: (theme) => theme.spacing(4, 3, 3, 3),
+          ...((latestPostLarge || latestPost) && {
+            width: 1,
+            bottom: 0,
+            position: 'absolute',
+          }),
+        }}
+      >
+        {renderTitle}
+      </Box>
+    </Card>
     // </Grid>
   );
 }
